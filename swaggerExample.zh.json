@@ -1,0 +1,294 @@
+{
+  "swagger": "2.0",
+  "info": {
+    "version": "1.0.0",
+    "title": "Choco Api Document Example",
+    "description": "這是一個學習如何使用 Swagger 產生 API Document 的範例。"
+  },
+  "schemes": ["http", "https"],
+  "host": "localhost",
+  "basePath": "",
+  "tags": [
+    {
+      "name": "learnRequest",
+      "description": "在這個分類學習如何描述 Request"
+    },
+    {
+      "name": "learnResponse",
+      "description": "在這個分類學習如何描述 Response"
+    },
+    {
+      "name": "learnDefinition",
+      "description": "在這個分類學習如何重複使用 Definition"
+    },
+    {
+      "name": "learnOthers",
+      "description": "在這個分類學習如何描述 Request",
+      "externalDocs": {
+        "description": "可以在分類上放外部連結：",
+        "url": "http://example.external.link"
+      }
+    }
+  ],
+  "paths": {
+    "/haveSomeParams": {
+      "post": {
+        "tags": ["learnRequest"],
+        "summary": "如何描述在 body 或 header 的參數",
+        "description": "如何描述在 body 或 header 的參數",
+        "consumes": ["application/json"],
+        "produces": ["application/json"],
+        "parameters": [
+          {
+            "in": "body",
+            "name": "body",
+            "description": "參數在 body 中的例子",
+            "required": true,
+            "type": "object",
+            "schema": {
+              "properties": {
+                "propString": {
+                  "type": "string",
+                  "example": "abcd",
+                  "description": "這是一個字串的參數"
+                },
+                "propInt": { "type": "int", "example": 123, "description": "這是一個整數的參數" },
+                "propBoolean": {
+                  "type": "boolean",
+                  "example": false,
+                  "description": "這是一個布林值的參數"
+                },
+                "propArray": {
+                  "type": "array",
+                  "example": [1, 2, 3],
+                  "description": "這是一個陣列的參數"
+                },
+                "propObject": {
+                  "type": "object",
+                  "example": {
+                    "prop1": 1234,
+                    "prop2": "abcde",
+                    "prop3": true
+                  },
+                  "description": "這是一個物件的參數"
+                }
+              }
+            }
+          },
+          {
+            "name": "authorization",
+            "in": "header",
+            "required": false,
+            "description": "參數在 header 中的例子，此處以 authorization 為例",
+            "type": "string",
+            "schema": {
+              "type": "string",
+              "example": "acde1jflk34fd21ekfkf",
+              "description": "這是一串秘密的授權碼"
+            }
+          }
+        ]
+      }
+    },
+    "/haveSomeParams/{someQuery}": {
+      "get": {
+        "tags": ["learnRequest"],
+        "summary": "如何描述在 query 中的參數",
+        "description": "如何描述在 query 中的參數",
+        "consumes": ["application/json"],
+        "produces": ["application/json"],
+        "parameters": [
+          {
+            "in": "query",
+            "name": "someQuery",
+            "description": "參數在 query 中的例子",
+            "required": true,
+            "type": "string",
+            "schema": {
+              "type": "string",
+              "example": "yolo!"
+            }
+          }
+        ]
+      }
+    },
+    "/haveSomeResponse": {
+      "get": {
+        "tags": ["learnResponse"],
+        "summary": "如何描述不同的 Response",
+        "description": "如何描述不同的 Response",
+        "consumes": ["application/json"],
+        "produces": ["application/json"],
+        "responses": {
+          "200": {
+            "description": "這是一個成功 Response 的例子",
+            "type": "object",
+            "schema": {
+              "properties": {
+                "msg": {
+                  "type": "string",
+                  "example": "success",
+                  "description": "成功 Response 在這裡會回傳 success"
+                },
+                "logCode": {
+                  "type": "int",
+                  "example": 2357,
+                  "description": "這是一個成功 Response 後的追蹤 log code"
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "缺少參數或參數格式不正確",
+            "type": "object",
+            "schema": {
+              "properties": {
+                "error": {
+                  "type": "string",
+                  "example": "params are invalid",
+                  "description": "失敗 Response 的 error message"
+                }
+              }
+            }
+          },
+          "401": {
+            "description": "帳號或密碼錯誤",
+            "type": "object",
+            "schema": {
+              "properties": {
+                "error": {
+                  "type": "string",
+                  "example": "Unauthorized",
+                  "description": "失敗 Response 的 error message"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/haveSomeResponse/withDefinition": {
+      "get": {
+        "tags": ["learnDefinition"],
+        "summary": "如何使用 definition 在 Schema 層級描述 Response",
+        "description": "definition 是可以重複使用的物件簡寫，可以用 `\"$ref\" : \"#/definitions/modelName\"` 存取\n",
+        "consumes": ["application/json"],
+        "produces": ["application/json"],
+        "responses": {
+          "200": {
+            "description": "這是一個成功 Response 的例子",
+            "schema": { "$ref": "#/definitions/successResponseSchema" }
+          },
+          "400": {
+            "description": "缺少參數或參數格式不正確",
+            "schema": { "$ref": "#/definitions/invalidRequestResponseSchema" }
+          },
+          "401": {
+            "description": "帳號或密碼錯誤",
+            "schema": {
+              "$ref": "#/definitions/loginFailResponseSchema"
+            }
+          }
+        }
+      }
+    },
+    "/haveSomeParams/withDefinition": {
+      "post": {
+        "tags": ["learnDefinition"],
+        "summary": "如何使用 definition 在 Param 層級描述 Request",
+        "description": "definition 可以描述各種層級，也可以直接在參數層級定義 definition",
+        "consumes": ["application/json"],
+        "produces": ["application/json"],
+        "parameters": [
+          {
+            "$ref": "#/definitions/bodyParamExample"
+          },
+          {
+            "$ref": "#/definitions/headerParamExample"
+          }
+        ]
+      }
+    }
+  },
+  "definitions": {
+    "successResponseSchema": {
+      "properties": {
+        "msg": {
+          "type": "string",
+          "example": "success",
+          "description": "成功 Response 在這裡會回傳 success"
+        },
+        "logCode": {
+          "type": "int",
+          "example": 2357,
+          "description": "這是一個成功 Response 後的追蹤 log code"
+        }
+      }
+    },
+    "invalidRequestResponseSchema": {
+      "properties": {
+        "error": {
+          "type": "string",
+          "example": "params are invalid",
+          "description": "失敗 Response 的 error message"
+        }
+      }
+    },
+    "loginFailResponseSchema": {
+      "properties": {
+        "error": {
+          "type": "string",
+          "example": "Unauthorized",
+          "description": "失敗 Response 的 error message"
+        }
+      }
+    },
+    "bodyParamExample": {
+      "in": "body",
+      "name": "body",
+      "description": "參數在 body 中的例子",
+      "required": true,
+      "type": "object",
+      "schema": {
+        "properties": {
+          "propString": {
+            "type": "string",
+            "example": "abcd",
+            "description": "這是一個字串的參數"
+          },
+          "propInt": { "type": "int", "example": 123, "description": "這是一個整數的參數" },
+          "propBoolean": {
+            "type": "boolean",
+            "example": false,
+            "description": "這是一個布林值的參數"
+          },
+          "propArray": {
+            "type": "array",
+            "example": [1, 2, 3],
+            "description": "這是一個陣列的參數"
+          },
+          "propObject": {
+            "type": "object",
+            "example": {
+              "prop1": 1234,
+              "prop2": "abcde",
+              "prop3": true
+            },
+            "description": "這是一個物件的參數"
+          }
+        }
+      }
+    },
+    "headerParamExample": {
+      "name": "authorization",
+      "in": "header",
+      "required": false,
+      "description": "Example params in header",
+      "type": "string",
+      "schema": {
+        "type": "string",
+        "example": "acde1jflk34fd21ekfkf"
+      }
+    }
+  }
+}
