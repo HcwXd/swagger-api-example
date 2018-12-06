@@ -2,7 +2,7 @@
   "swagger": "2.0",
   "info": {
     "version": "1.0.0",
-    "title": "Choco Api Document Example",
+    "title": "Swagger Api Document Example",
     "description": "這是一個學習如何使用 Swagger 產生 API Document 的範例。"
   },
   "schemes": ["http", "https"],
