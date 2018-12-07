@@ -8,3 +8,27 @@
 >
 > For those who using vs code, you can easily preview the demo when editing `swagger.json` by installing the Swagger Viewer plugin. 
 
+
+
+### Installation
+
+```
+git clone https://github.com/HcwXd/swagger-api-example.git
+cd ./swagger-api-example
+```
+
+
+
+### How to learn swagger through the example
+
+1. Open `index.html` to see what's the finished document look like
+2. Open `swagger.json` which contains all the basics syntax needed for writing a simple swagger document
+
+
+
+### Useful Resources
+
+- Tutorial
+  - https://apihandyman.io/writing-openapi-swagger-specification-tutorial-part-2-the-basics/
+- Map of open api
+  - http://openapi-map.apihandyman.io/?version=2.0
